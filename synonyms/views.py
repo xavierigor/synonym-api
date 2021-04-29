@@ -8,9 +8,6 @@ from synonyms.constants import PARAM_NOT_SPECIFIED_ERROR
 
 class SynonymList(APIView):
 
-    # def _scrape_synonyms_from_webpage(self, term):
-    #     return term
-
     def _fetch_synonyms(self, term):
         import requests
         from bs4 import BeautifulSoup
