@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "synonym-api"
 version = "0.1.0"
-description = ""
+description = "An API for searching word synonyms. Only available in pt-BR."
 authors = ["Igor Xavier <igoorlimaa@gmail.com>"]
 
 [tool.poetry.dependencies]
