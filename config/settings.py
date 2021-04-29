@@ -82,3 +82,9 @@ REST_FRAMEWORK = {
         'rest_framework.filters.OrderingFilter'
     ],
 }
+
+
+# -----------------------------------------------------------------------------
+# Custom constants
+# -----------------------------------------------------------------------------
+SYNONYM_API_BASE_URL = 'https://sinonimos.com.br/'
