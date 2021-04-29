@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from config.settings import SYNONYM_API_BASE_URL
+from synonyms.constants import PARAM_NOT_SPECIFIED_ERROR
 
 
 class SynonymList(APIView):
@@ -39,7 +40,7 @@ class SynonymList(APIView):
     def get(self, request, format=None):
         term = request.query_params.get('term', None)
         if term is None:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": PARAM_NOT_SPECIFIED_ERROR}, status=status.HTTP_400_BAD_REQUEST)
 
         synonyms = self._fetch_synonyms(term=term)
         return Response(synonyms)
