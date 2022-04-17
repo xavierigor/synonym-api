@@ -1,24 +1,22 @@
-from rest_framework import status
+import requests
+from bs4 import BeautifulSoup
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from config.settings import SYNONYM_API_BASE_URL
-from synonyms.constants import PARAM_NOT_SPECIFIED_ERROR
 
 
 class SynonymList(APIView):
 
-    def _fetch_synonyms(self, term):
-        import requests
-        from bs4 import BeautifulSoup
+    def _fetch_synonyms(self, query):
+        url = SYNONYM_API_BASE_URL + query
+        webpage = requests.get(url)
 
-        url = SYNONYM_API_BASE_URL + term
-        response = requests.get(url)
-
-        soup = BeautifulSoup(response.text, 'html.parser')
+        soup = BeautifulSoup(webpage.text, 'html.parser')
         synonym_sets = soup.select('#page #content div .s-wrapper')
 
-        formatted_dict = dict(term=term, results=[])
+        result = dict(query=query, results=[])
         for synonym_set in synonym_sets:
             meaning = synonym_set.select_one('.sentido')
             if meaning is not None and meaning.text[-1] == ':':
@@ -26,18 +24,19 @@ class SynonymList(APIView):
                 # remove colon
                 meaning = meaning.text[:len(meaning.text)-1]
 
-            synonyms = [synonym.text for synonym in synonym_set.select('.sinonimos .sinonimo')]
-            formatted_dict['results'].append({
+            synonyms = [synonym.text for synonym in
+                        synonym_set.select('.sinonimos .sinonimo')]
+            result['results'].append({
                 'meaning': meaning,
                 'synonyms': synonyms
             })
 
-        return formatted_dict
+        return result
 
-    def get(self, request, format=None):
-        term = request.query_params.get('term', None)
-        if term is None:
-            return Response({"message": PARAM_NOT_SPECIFIED_ERROR}, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request):
+        query = request.query_params.get('query', None)
+        if not query:
+            raise ValidationError('"query" query parameter is required')
 
-        synonyms = self._fetch_synonyms(term=term)
+        synonyms = self._fetch_synonyms(query=query)
         return Response(synonyms)

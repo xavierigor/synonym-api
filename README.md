@@ -11,12 +11,12 @@ This is built using Python/Django and Django Rest Framework. You can check all t
 Send a GET request to the endpoint `/api/synonyms` with a search term as a query parameter, e.g.:
 
 ```http request
-GET /api/synonyms?term=adquirir
+GET /api/synonyms?query=adquirir
 ```
 
 ```json
 {
-    "term": "adquirir",
+    "query": "adquirir",
     "results": [
         {
             "meaning": "Passar a ter algo",
@@ -41,9 +41,9 @@ GET /api/synonyms?term=adquirir
                 "amanhar"
             ]
         },
-        
+
         ...
-        
+
     ]
 }
 ```
