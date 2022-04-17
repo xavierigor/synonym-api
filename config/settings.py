@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     "corsheaders",
 
     # Local
-    # ...
+    "synonyms",
 ]
 
 
