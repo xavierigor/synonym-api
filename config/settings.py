@@ -37,8 +37,8 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 # -----------------------------------------------------------------------------
 # Databases
 # -----------------------------------------------------------------------------
-DJANGO_DATABASE_URL = env.db("DATABASE_URL")
-DATABASES = {"default": DJANGO_DATABASE_URL}
+# DJANGO_DATABASE_URL = env.db("DATABASE_URL")
+# DATABASES = {"default": DJANGO_DATABASE_URL}
 
 
 # -----------------------------------------------------------------------------
