@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from django.utils.text import slugify
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,7 +11,7 @@ from config.settings import SYNONYM_API_BASE_URL
 class SynonymList(APIView):
 
     def _fetch_synonyms(self, query):
-        url = SYNONYM_API_BASE_URL + query
+        url = SYNONYM_API_BASE_URL + slugify(query)
         webpage = requests.get(url)
 
         soup = BeautifulSoup(webpage.text, 'html.parser')
