@@ -8,10 +8,10 @@ The data is scraped from the https://sinonimos.com.br web page and returned in a
 This is built using Python/Django and Django Rest Framework. You can check all the dependencies in [this file](pyproject.toml).
 
 ### Trying it out
-Send a GET request to the endpoint `/api/synonyms` with a search term as a query parameter, e.g.:
+Send a GET request to the endpoint `/api/v1/synonyms` with a search term as a query parameter, e.g.:
 
 ```http request
-GET /api/synonyms?query=adquirir
+GET /api/v1/synonyms?query=adquirir
 ```
 
 ```json
