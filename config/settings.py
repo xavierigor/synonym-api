@@ -45,14 +45,19 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
 # Applications configuration
 # -----------------------------------------------------------------------------
 INSTALLED_APPS = [
+    # Django
+    'django.contrib.staticfiles',
+
     # Third party
-    "rest_framework",
-    "corsheaders",
+    'rest_framework',
+    'corsheaders',
+    'drf_yasg',
 
     # Local
-    "synonyms",
+    'synonyms',
 ]
 
+STATIC_URL = '/static/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,6 +65,22 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [root_path("templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
 ]
 
 
@@ -81,6 +102,14 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': [
         'rest_framework.filters.OrderingFilter'
     ],
+}
+
+
+# -----------------------------------------------------------------------------
+# drf-yasg configuration
+# -----------------------------------------------------------------------------
+SWAGGER_SETTINGS = {
+   'USE_SESSION_AUTH': False
 }
 
 

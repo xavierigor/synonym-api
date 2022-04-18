@@ -1,14 +1,22 @@
 import requests
 from bs4 import BeautifulSoup
 from django.utils.text import slugify
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from config.settings import SYNONYM_API_BASE_URL
+from synonyms.serializers import ResponseSerializer
 
 
 class SynonymList(APIView):
+    query_param = openapi.Parameter(
+        'query', openapi.IN_QUERY,
+        description='The term you\'re searching synonyms for',
+        type=openapi.TYPE_STRING, required=True
+    )
 
     def _fetch_synonyms(self, query):
         url = SYNONYM_API_BASE_URL + slugify(query)
@@ -34,6 +42,8 @@ class SynonymList(APIView):
 
         return result
 
+    @swagger_auto_schema(
+        manual_parameters=[query_param], responses={200: ResponseSerializer})
     def get(self, request):
         query = request.query_params.get('query', None)
         if not query:
